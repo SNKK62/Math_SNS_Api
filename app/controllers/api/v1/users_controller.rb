@@ -8,7 +8,7 @@ class Api::V1::UsersController < ApplicationController
  
   def index 
     users = User.all 
-    render json: {users: users}, methods: [:follower_count,:following_count,:problem_count]
+    render json: {users: users}, methods: [:follower_count,:following_count,:problem_count,:solution_count,:image_url]
   end
 
   def create
@@ -58,10 +58,17 @@ class Api::V1::UsersController < ApplicationController
 
   def search
     query = params[:name]
-    times = params[:times]
-    users = User.where('name = ?', query).limit(20).offset(20*times)
-    render json: {user: users}
+    times = params[:times].to_i
+    ifend = User.all.length < 10*times+10
+    users = User.where('name LIKE ?', '%'+query+'%').limit(10).offset(10*times)
+    render json: {user: users, ifend: ifend},methods: [:follower_count,:following_count,:problem_count,:solution_count,:image_url]
+  end
 
+  def search_none
+    times = params[:times].to_i
+    users = User.limit(10).offset(10*times)
+    ifend = User.all.length < 10*times+10
+    render json: {user: users, ifend: ifend}, methods: [:follower_count, :following_count,:problem_count, :solution_count,:image_url]
   end
 
   private

@@ -21,7 +21,11 @@ class User < ApplicationRecord
     def problem_count
         problems.count
     end
-    
+
+    def solution_count
+        solutions.count
+    end
+     
     def follower_count
         followers.count
     end

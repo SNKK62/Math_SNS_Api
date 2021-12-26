@@ -4,16 +4,13 @@ class Api::V1::CommentsController < ApplicationController
         user = comment.user
         user_name = user.name
         user_image = user.image_url
-        render json: {comment: comment, user_name: user_name, user_image: user_image}, methods: [:image_comment_url]
+        render json: {comment: comment, user_name: user_name, user_image: user_image}
     end
 
     def problem_create
         comment = current_user.comments.new(comment_params.except(:image))
         comment[:problem_id] = params[:id]
         if comment.save
-            if comment_params[:image] != ''
-                comment.image.attach(comment_params[:image])
-            end
             render json: {id: comment.id}
         else
             puts comment.errors.full_messages
@@ -25,9 +22,6 @@ class Api::V1::CommentsController < ApplicationController
         comment = current_user.comments.new(comment_params.except(:image))
         comment[:solution_id] = params[:id]
         if comment.save
-            if comment_params[:image] != ''
-                comment.image.attach(comment_params[:image])
-            end
             render json: {id: comment.id}
         else
             render json: {error: comment.errors}, status: 422
@@ -37,18 +31,8 @@ class Api::V1::CommentsController < ApplicationController
     def update
         comment = Comment.find(params[:id])
         if comment.update_attribute(:text, comment_params[:text])
-            if comment_params[:image] == '' && comment.image.attached?
-                comment.image.purge
-            elsif comment_params[:image] ==  'keep'
-            elsif comment_params[:image] != '' && comment.image.attached?
-                comment.image.purge
-                comment.image.attach(comment_params[:image])
-            elsif comment_params[:image] != '' && !comment.image.attached?
-                comment.image.attach(comment_params[:image])
-            end
             render json: {comment: comment}
         else
-            puts 'a'
             render json: {message: comment.errors}, status: 422
         end
     end
@@ -61,9 +45,23 @@ class Api::V1::CommentsController < ApplicationController
             render json: {error: comment.errors}, status: 422
         end
     end
+    def search_from_problem 
+        times =params[:times].to_i
+        problem = Problem.find(params[:id])
+        comments = problem.comments.limit(10).offset(10*times)
+        ifend = problem.comments.length < 10*times+10
+        render json: {comment: comments, ifend: ifend}, methods: [:user_image,:user_name]
+    end
+    def search_from_solution 
+        time0s =params[:times].to_i
+        solution = Solution.find(params[:id])
+        comments = solution.comments.limit(10).offset(10*times)
+        ifend = solution.comments.length < 10*times+10
+        render json: {comment: comments, ifend: ifend}, methods: [:user_image,:user_name]
+    end
 
     private
     def comment_params
-        params.require(:comment).permit(:text, :image)
+        params.require(:comment).permit(:text)
     end
 end

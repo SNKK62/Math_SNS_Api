@@ -83,6 +83,29 @@ class Api::V1::ProblemsController < ApplicationController
         end
     end
 
+    def search
+        query = params[:category]
+        times = params[:times].to_i
+        ifend = Problem.all.length < 10*times+10
+        problems = Problem.where('category LIKE ?', '%'+query+'%').limit(10).offset(10*times)
+        render json: {problem: problems, ifend: ifend},methods: [:user_image,:user_name]
+    end
+
+    def search_none
+        times = params[:times].to_i
+        problems = Problem.limit(10).offset(10*times)
+        ifend = Problem.all.length < 10*times+10
+        render json: {problem: problems, ifend: ifend}, methods: [:user_image,:user_name]
+    end
+
+    def user_problem
+        times = params[:times].to_i
+        user = User.find(params[:id])
+        ifend = user.problems.length < 10*times+10
+        problems = user.problems.limit(10).ofsset(10*times)
+        render json: {problem: problems, ifend: ifend}, methods: [:user_image,:user_name]
+    end
+
     private
         def problem_params
             params.require(:problem).permit(:image1, :image2, :image3, :description, :category)

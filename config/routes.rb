@@ -6,18 +6,33 @@ Rails.application.routes.draw do
         member do
           get :followings, :followers
           get :show_image
-          resources :problems, only: [:index]
+          get '/problems/:times', to: 'problems#user_problem'
+          get '/solutions/:times', to: 'solutions#user_solution'
+        end
+        collection do
+          get '/search/:times/:name', to: 'users#search'
+          get '/search/:times', to: 'users#search_none'
         end
       end
       resources :problems, except: [:index] do 
         member do 
-          resources :solutions, only: [:create]
+          resources :solutions, only: [:create] do
+            collection do
+              get '/:times', to: 'solutions#search'
+            end
+          end
+          get '/comments/:times', to: 'comments#search_from_problem'
           post '/comments/', to: 'comments#problem_create'
+        end
+        collection do
+          get '/search/:times/:category', to: 'problems#search'
+          get '/search/:times', to: 'problems#search_none'
         end
       end
       resources :solutions, except: [:create] do 
         member do 
           post '/comments/', to: 'comments#solution_create'
+          get '/comments/:times', to: 'comments#search_from_solution'
         end
       end
       resources :comments, except: [:create]

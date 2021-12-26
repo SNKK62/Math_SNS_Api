@@ -23,4 +23,10 @@ class Solution < ApplicationRecord
         # 紐づいている画像のURLを取得する
         image3.attached? ? url_for(image3) : ''
     end
+    def user_image
+        user.image.attached? ? url_for(user.image) : ''
+    end
+    def user_name
+        user.name
+    end
 end

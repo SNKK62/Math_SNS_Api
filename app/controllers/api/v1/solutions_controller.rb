@@ -85,6 +85,14 @@ class Api::V1::SolutionsController < ApplicationController
         end
     end
 
+    def search 
+        times =params[:times].to_i
+        problem = Problem.find(params[:id])
+        solutions = problem.solutions.limit(10).offset(10*times)
+        ifend = user.problems.length < 10*times+10
+        render json: {solution: solutions, ifend: ifend}, methods: [:user_image,:user_name]
+    end
+
     private
         def solution_params
             params.require(:solution).permit(:description,:image1,:image2,:image3)
