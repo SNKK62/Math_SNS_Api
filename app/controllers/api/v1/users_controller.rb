@@ -1,5 +1,7 @@
 
 class Api::V1::UsersController < ApplicationController
+  include Rails.application.routes.url_helpers
+
 
   def show
     user = User.find(params[:id])
@@ -69,6 +71,14 @@ class Api::V1::UsersController < ApplicationController
     users = User.limit(10).offset(10*times)
     ifend = User.all.length < 10*times+10
     render json: {user: users, ifend: ifend}, methods: [:follower_count, :following_count,:problem_count, :solution_count,:image_url]
+  end
+
+  def logged_in
+    iflog = logged_in? ? true : false
+    current_id = iflog ? current_user.id : -1
+    user_image = iflog ? url_for(current_user.image) : ''
+    user_name = iflog ? current_user.name : ''
+    render json: {bool: iflog, id: current_id, image: user_image,name: user_name}
   end
 
   private

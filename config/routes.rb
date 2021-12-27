@@ -12,6 +12,9 @@ Rails.application.routes.draw do
         collection do
           get '/search/:times/:name', to: 'users#search'
           get '/search/:times', to: 'users#search_none'
+          post '/follow/:id', to: 'relationships#create'
+          delete '/unfollow/:id', to: 'relationships#destroy'
+          get '/iffollow/:id', to: 'relationships#iffollow'
         end
       end
       resources :problems, except: [:index] do 
@@ -37,9 +40,11 @@ Rails.application.routes.draw do
       end
       resources :comments, except: [:create]
 
+
       resources :relationships, only: [:create, :destroy]
       post '/login', to: 'sessions#create'
       delete '/logout', to: 'sessions#destroy'
+      get '/logged_in', to: 'users#logged_in'
     end
   end
 

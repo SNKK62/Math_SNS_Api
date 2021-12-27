@@ -1,27 +1,31 @@
 class Api::V1::RelationshipsController < ApplicationController
-    before_action :set_user
 
     def create
-        following = current_user.follow(@user)
+        user = User.find(params[:id])
+        following = current_user.follow(user)
         if following.save
-            # フォロー成功の処理
+            render json: {message: 'success to follow'}
         else
-            # フォロー失敗の処理
+            render json: {error: 'fail to follow'}
         end
     end
 
     def destroy
-        following = current_user.unfollow(@user)
+        user = User.find(params[:id])
+        following = current_user.unfollow(user)
         if following.destroy
-            # フォロー解除成功の処理
+            render json: {message: 'success to unfollow'}
         else
-            # フォロー解除失敗の処理
+            render json: {error: 'fail to unfollow'}
         end
     end
 
-    private
-    def set_user
-        @user = User.find(params[:relationship][:follow_id])
+    def iffollow
+        user = User.find(params[:id])
+        follow = current_user.following?(user)
+        render json: {follow: follow}
     end
+
+    
     
 end
