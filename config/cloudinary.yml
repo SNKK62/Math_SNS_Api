@@ -1,7 +1,8 @@
 
 
 production:
-  cloud_name: hfxvwmshp
-  api_key: "429186879321882"
-  api_secret: y1iUo7umhiEgEnPBYYPaKUILO2I
-  secure:true
+  cloud_name: <%= ENV['CLOUDINARY_NAME'] %>
+  api_key: <%= ENV['CLOUDINARY_API_KEY'] %>
+  api_secret: <%= ENV['CLOUDINARY_API_SECRET'] %>
+  enhance_image_tag: true
+  static_image_support: true
