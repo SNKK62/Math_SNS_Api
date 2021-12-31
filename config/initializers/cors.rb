@@ -7,8 +7,11 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    # origins 'http://localhost:3000'
-    origins 'https://mualphatheta.herokuapp.com/'
+    if Rails.env.production?
+      origins 'https://mualphatheta.herokuapp.com'
+    else
+      origins 'http://localhost:3000'
+    end
 
 
     resource '*',
