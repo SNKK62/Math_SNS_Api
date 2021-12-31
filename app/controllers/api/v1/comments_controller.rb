@@ -48,14 +48,14 @@ class Api::V1::CommentsController < ApplicationController
     def search_from_problem 
         times =params[:times].to_i
         problem = Problem.find(params[:id])
-        comments = problem.comments.limit(10).offset(10*times)
+        comments = problem.comments.order(updated_at: :DESC).limit(10).offset(10*times)
         ifend = problem.comments.length < 10*times+10
         render json: {comment: comments, ifend: ifend}, methods: [:user_image,:user_name]
     end
     def search_from_solution 
-        time0s =params[:times].to_i
+        times =params[:times].to_i
         solution = Solution.find(params[:id])
-        comments = solution.comments.limit(10).offset(10*times)
+        comments = solution.comments.order(updated_at: :DESC).limit(10).offset(10*times)
         ifend = solution.comments.length < 10*times+10
         render json: {comment: comments, ifend: ifend}, methods: [:user_image,:user_name]
     end

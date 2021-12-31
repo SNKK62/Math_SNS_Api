@@ -9,7 +9,7 @@ class Api::V1::UsersController < ApplicationController
   end
  
   def index 
-    users = User.all 
+    users = User.all.order(updated_at: :DESC)
     render json: {users: users}, methods: [:follower_count,:following_count,:problem_count,:solution_count,:image_url]
   end
 
@@ -61,14 +61,14 @@ class Api::V1::UsersController < ApplicationController
   def search
     query = params[:name]
     times = params[:times].to_i
-    ifend = User.all.length < 10*times+10
-    users = User.where('name LIKE ?', '%'+query+'%').limit(10).offset(10*times)
+    ifend = User.where('name LIKE ?', '%'+query+'%').length < 10*times+10
+    users = User.where('name LIKE ?', '%'+query+'%').order(updated_at: :DESC).limit(10).offset(10*times)
     render json: {user: users, ifend: ifend},methods: [:follower_count,:following_count,:problem_count,:solution_count,:image_url]
   end
 
   def search_none
     times = params[:times].to_i
-    users = User.limit(10).offset(10*times)
+    users = User.order(updated_at: :DESC).limit(10).offset(10*times)
     ifend = User.all.length < 10*times+10
     render json: {user: users, ifend: ifend}, methods: [:follower_count, :following_count,:problem_count, :solution_count,:image_url]
   end
@@ -81,9 +81,35 @@ class Api::V1::UsersController < ApplicationController
     render json: {bool: iflog, id: current_id, image: user_image,name: user_name}
   end
 
+  def followers 
+    user = User.find(params[:id])
+    followers = user.followers
+    render json: {user: followers, user_name: user.name}, methods: [:follower_count, :following_count,:problem_count, :solution_count,:image_url]
+  end
+
+  def followings 
+    user = User.find(params[:id])
+    followings = user.followings
+    render json: {user: followings, user_name: user.name}, methods: [:follower_count, :following_count,:problem_count, :solution_count,:image_url]
+  end
+
+  def like_problems
+    times = params[:times].to_i
+    problems = current_user.like_problem.order(updated_at: :DESC).limit(15).offset(15*times)
+    ifend = current_user.like_problem.count < 15*times+15
+    render json: {problem: problems, ifend: ifend}, methods: [:plike_count,:user_name,:user_image]
+  end
+
+  def like_solutions
+    times = params[:times].to_i
+    solutions = current_user.like_solution.order(updated_at: :DESC).limit(15).offset(15*times)
+    ifend = current_user.like_solution.count < 15*times+15
+    render json: {solution: solutions, ifend: ifend}, methods: [:category,:user_name,:slike_count, :user_image]
+  end
+
   private
     def user_params
-      params.require(:user).permit(:name,:password,:password_confirmation,:image)
+      params.require(:user).permit(:name,:password,:password_confirmation,:image,:description)
     end
 
 end

@@ -15,10 +15,15 @@ Rails.application.routes.draw do
           post '/follow/:id', to: 'relationships#create'
           delete '/unfollow/:id', to: 'relationships#destroy'
           get '/iffollow/:id', to: 'relationships#iffollow'
+          get '/like_problems/:times', to: 'users#like_problems'
+          get '/like_solutions/:times', to: 'users#like_solutions'
         end
       end
       resources :problems, except: [:index] do 
         member do 
+          post '/like', to: 'likes#problem_create'
+          delete '/unlike', to: 'likes#problem_destroy'
+          get '/iflike', to: 'likes#ifplike'
           resources :solutions, only: [:create] do
             collection do
               get '/:times', to: 'solutions#search'
@@ -36,6 +41,9 @@ Rails.application.routes.draw do
         member do 
           post '/comments/', to: 'comments#solution_create'
           get '/comments/:times', to: 'comments#search_from_solution'
+          post '/like', to: 'likes#solution_create'
+          delete '/unlike', to: 'likes#solution_destroy'
+          get '/iflike', to: 'likes#ifslike'
         end
       end
       resources :comments, except: [:create]

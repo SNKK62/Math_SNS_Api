@@ -11,6 +11,9 @@ class Problem < ApplicationRecord
     has_many :solutions, dependent: :destroy
     has_many :comments, dependent: :destroy
 
+    has_many :likes, dependent: :destroy
+    has_many :users, through: :likes
+
     def image1_url
         # 紐づいている画像のURLを取得する
         image1.attached? ? url_for(image1) : ''
@@ -28,5 +31,9 @@ class Problem < ApplicationRecord
     end
     def user_name
         user.name
+    end
+
+    def plike_count
+        users.count
     end
 end

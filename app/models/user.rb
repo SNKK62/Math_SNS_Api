@@ -18,6 +18,10 @@ class User < ApplicationRecord
     has_many :solutions, dependent: :destroy
     has_many :comments, dependent: :destroy
 
+    has_many :likes, dependent: :destroy
+    has_many :like_problem, through: :likes, source: :problem
+    has_many :like_solution, through: :likes, source: :solution
+
     def problem_count
         problems.count
     end
@@ -77,5 +81,29 @@ class User < ApplicationRecord
 
     def forget
         update_attribute(:remember_digest,nil)
+    end
+
+    def plike(problem)
+        likes.find_or_create_by(problem: problem)
+    end
+
+    def plike?(problem)
+        like_problem.include?(problem)
+    end
+
+    def punlike(problem)
+        like_problem.delete(problem)
+    end
+
+    def slike(solution)
+        likes.find_or_create_by(solution: solution)
+    end
+
+    def slike?(solution)
+        like_solution.include?(solution)
+    end
+
+    def sunlike(solution)
+        like_solution.delete(solution)
     end
 end

@@ -18,7 +18,8 @@ gem 'bcrypt'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
-
+gem 'cloudinary', require: true
+gem 'activestorage-cloudinary-service'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'rack-cors'

@@ -10,7 +10,7 @@ class Api::V1::SolutionsController < ApplicationController
         user = solution.user
         user_name = user.name
         user_image = user.image_url
-        render json: {problem: solution, user_name: user_name, user_image: user_image}, methods: [:image1s_url, :image2s_url, :image3s_url]
+        render json: {problem: solution, user_name: user_name, user_image: user_image}, methods: [:image1s_url, :image2s_url, :image3s_url,:slike_count]
     end
 
     def create
@@ -88,9 +88,9 @@ class Api::V1::SolutionsController < ApplicationController
     def search 
         times =params[:times].to_i
         problem = Problem.find(params[:id])
-        solutions = problem.solutions.limit(10).offset(10*times)
-        ifend = user.problems.length < 10*times+10
-        render json: {solution: solutions, ifend: ifend}, methods: [:user_image,:user_name]
+        solutions = problem.solutions.order(updated_at: :DESC).limit(10).offset(10*times)
+        ifend = problem.solutions.length < 10*times+10
+        render json: {solution: solutions, ifend: ifend}, methods: [:user_image,:user_name,:slike_count]
     end
 
     private

@@ -9,7 +9,7 @@ class Api::V1::ProblemsController < ApplicationController
         user = problem.user
         user_name = user.name
         user_image = user.image_url
-        render json: {problem: problem, user_name: user_name, user_image: user_image}, methods: [:image1_url, :image2_url, :image3_url]
+        render json: {problem: problem, user_name: user_name, user_image: user_image}, methods: [:image1_url, :image2_url, :image3_url, :plike_count]
     end
 
     def create
@@ -86,24 +86,24 @@ class Api::V1::ProblemsController < ApplicationController
     def search
         query = params[:category]
         times = params[:times].to_i
-        ifend = Problem.all.length < 10*times+10
+        ifend = Problem.where('category LIKE ?', '%'+query+'%').order(updated_at: :DESC).length < 10*times+10
         problems = Problem.where('category LIKE ?', '%'+query+'%').limit(10).offset(10*times)
-        render json: {problem: problems, ifend: ifend},methods: [:user_image,:user_name]
+        render json: {problem: problems, ifend: ifend},methods: [:user_image,:user_name,:plike_count]
     end
 
     def search_none
         times = params[:times].to_i
         problems = Problem.limit(10).offset(10*times)
-        ifend = Problem.all.length < 10*times+10
-        render json: {problem: problems, ifend: ifend}, methods: [:user_image,:user_name]
+        ifend = Problem.all.order(updated_at: :DESC).length < 10*times+10
+        render json: {problem: problems, ifend: ifend}, methods: [:user_image,:user_name,:plike_count]
     end
 
     def user_problem
         times = params[:times].to_i
         user = User.find(params[:id])
         ifend = user.problems.length < 10*times+10
-        problems = user.problems.limit(10).ofsset(10*times)
-        render json: {problem: problems, ifend: ifend}, methods: [:user_image,:user_name]
+        problems = user.problems.order(updated_at: :DESC).limit(10).offset(10*times)
+        render json: {problem: problems, ifend: ifend}, methods: [:user_name,:plike_count]
     end
 
     private

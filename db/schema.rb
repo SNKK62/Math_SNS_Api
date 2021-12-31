@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_08_100352) do
+ActiveRecord::Schema.define(version: 2021_12_30_125500) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -54,6 +54,19 @@ ActiveRecord::Schema.define(version: 2021_12_08_100352) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "likes", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "problem_id"
+    t.integer "solution_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["problem_id"], name: "index_likes_on_problem_id"
+    t.index ["solution_id"], name: "index_likes_on_solution_id"
+    t.index ["user_id", "problem_id"], name: "index_likes_on_user_id_and_problem_id", unique: true
+    t.index ["user_id", "solution_id"], name: "index_likes_on_user_id_and_solution_id", unique: true
+    t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
   create_table "problems", force: :cascade do |t|
     t.text "description"
     t.string "category"
@@ -92,6 +105,7 @@ ActiveRecord::Schema.define(version: 2021_12_08_100352) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "remember_digest"
+    t.text "description"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
