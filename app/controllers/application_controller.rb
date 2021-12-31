@@ -7,6 +7,6 @@ class ApplicationController < ActionController::Base
 #   skip_before_action :verify_authenticity_token
 
     def set_csrf_token
-        response.set_header('CSRF-TOKEN', form_authenticity_token)
+        response.set_header('X-CSRF-Token', form_authenticity_token)
     end
 end
