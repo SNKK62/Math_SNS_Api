@@ -33,7 +33,8 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :cloudinary
   # config.hosts << 'mualphatheta.herokuapp.com'
-  config.default_url_options = { host: 'mualphatheta.herokuapp.com'}
+  host = 'mualphatheta-api.herokuapp.com'
+  Rails.application.routes.default_url_options[:host] = host
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
