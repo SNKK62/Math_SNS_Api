@@ -1,6 +1,7 @@
+
+
 production:
-  cloud_name: 'dn1ba7rjz'
-  api_key:    '161855852981934'
-  api_secret: '-SDzcAbDolJ_7HMEKNN1h0_XU2w'
-  secure: true
-  cdn_domain: true
+  cloud_name: "hfxvwmshp"
+  api_key: "429186879321882"
+  api_secret: "y1iUo7umhiEgEnPBYYPaKUILO2I"
+  secure:true
