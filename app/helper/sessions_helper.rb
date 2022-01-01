@@ -1,12 +1,15 @@
 module SessionsHelper
     def log_in(user)
+        puts session 
         session[:user_id] = user.id
+        puts session 
     end
     
     def remember(user)
         user.remember
         cookies.permanent.signed[:user_id] = user.id
         cookies.permanent[:remember_token] = user.remember_token
+        puts cookies
     end
 
     def forget(user)
