@@ -74,6 +74,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def logged_in
+    puts params[:session]
     iflog = logged_in? ? true : false
     current_id = iflog ? current_user.id : -1
     user_image = iflog ? url_for(current_user.image) : ''

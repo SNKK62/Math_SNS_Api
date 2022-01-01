@@ -3,6 +3,7 @@ class Api::V1::SessionsController < ApplicationController
 
     def create
         user = User.find_by(name: params[:session][:name])
+        puts params[:sessoin]
         if user && user.authenticate(params[:session][:password])
             #ログイン成功
             log_in user

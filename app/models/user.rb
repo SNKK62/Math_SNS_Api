@@ -42,8 +42,7 @@ class User < ApplicationRecord
     def image_url
         # 紐づいている画像のURLを取得する
         # image.attached? ? url_for(image) : nil
-        url = url_for(image)
-        Cloudinary::Utils.cloudinary_url(url)
+        image.url
       end
 
     def follow(other_user)
