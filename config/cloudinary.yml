@@ -1,20 +1,20 @@
 ---
 development:
-  cloud_name: hwy7j4ucj
-  api_key: '273915676469567'
-  api_secret: WiFBcRMT9zEICFYTvFTS04oba2I
+  cloud_name: <% ENV['CLOUDINARY_NAME'] %>
+  api_key: <% ENV['CLOUDINARY_API_KEY'] %>
+  api_secret: <% ENV['CLOUDINARY_API_SECRET'] %>
   enhance_image_tag: true
   static_file_support: false
 production:
-  cloud_name: hwy7j4ucj
-  api_key: '273915676469567'
-  api_secret: WiFBcRMT9zEICFYTvFTS04oba2I
+  cloud_name: <% ENV['CLOUDINARY_NAME'] %>
+  api_key: <% ENV['CLOUDINARY_API_KEY'] %>
+  api_secret: <% ENV['CLOUDINARY_API_SECRET'] %>
   enhance_image_tag: true
   static_file_support: true
 test:
-  cloud_name: hwy7j4ucj
-  api_key: '273915676469567'
-  api_secret: WiFBcRMT9zEICFYTvFTS04oba2I
+  cloud_name: <% ENV['CLOUDINARY_NAME'] %>
+  api_key: <% ENV['CLOUDINARY_API_KEY'] %>
+  api_secret: <% ENV['CLOUDINARY_API_SECRET'] %>
   enhance_image_tag: true
   static_file_support: false
 

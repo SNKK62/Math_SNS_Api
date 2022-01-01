@@ -8,9 +8,9 @@ local:
 
 cloudinary:
   service: Cloudinary
-  cloud_name: <%= Rails.application.credentials.dig(:cloudinary, 'hwy7j4ucj') %>
-  api_key:    <%= Rails.application.credentials.dig(:cloudinary, '273915676469567') %>
-  api_secret: <%= Rails.application.credentials.dig(:cloudinary, 'WiFBcRMT9zEICFYTvFTS04oba2I') %>
+  cloud_name: <% ENV['CLOUDINARY_NAME'] %>
+  api_key: <% ENV['CLOUDINARY_API_KEY'] %>
+  api_secret: <% ENV['CLOUDINARY_API_SECRET'] %>
 
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
