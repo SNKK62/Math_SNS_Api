@@ -27,8 +27,8 @@ class Problem < ApplicationRecord
         image3.attached? ? url_for(image3) : ''
     end
     def user_image
-        # user.image.attached? ? url_for(user.image) : ''
-        user.image.url
+        user.image.attached? ? url_for(user.image) : ''
+        # user.image.url
     end
     def user_name
         user.name
