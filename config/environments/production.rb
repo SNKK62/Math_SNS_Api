@@ -32,6 +32,15 @@ Rails.application.configure do
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :amazon
+  config.paperclip_defaults = {
+    :storage => :s3,
+    :s3_credentials => {
+        :bucket => ENV['S3_BUCKET_NAME'],
+        :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
+        :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+        }
+    }ß
+
   # config.hosts << 'mualphatheta.herokuapp.com'
   host = 'mualphatheta-api.herokuapp.com'
   Rails.application.routes.default_url_options[:host] = host
