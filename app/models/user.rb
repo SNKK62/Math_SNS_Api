@@ -41,8 +41,8 @@ class User < ApplicationRecord
 
     def image_url
         # 紐づいている画像のURLを取得する
-        # image.attached? ? url_for(image) : nil
-        image.url
+        image.attached? ? url_for(image) : nil
+        # image.url
       end
 
     def follow(other_user)
