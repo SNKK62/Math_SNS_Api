@@ -1,7 +1,6 @@
 module SessionsHelper
     def log_in(user)
         session[:user_id] = user.id
-        puts 'login_user', session[:user_id]
     end
     
     def remember(user)
@@ -23,7 +22,6 @@ module SessionsHelper
     end
 
     def current_user 
-        puts 'current_user', session[:user_id]
         if (user_id = session[:user_id])
             current_user ||= User.find_by(id: user_id)
         elsif (user_id = cookies.signed[:user_id])
