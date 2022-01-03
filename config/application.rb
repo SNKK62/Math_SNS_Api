@@ -40,6 +40,6 @@ module MathSnsApi
     config.middleware.use ActionDispatch::Session::CookieStore
     config.middleware.use ActionDispatch::ContentSecurityPolicy::Middleware
     config.action_controller.forgery_protection_origin_check = false
-
+    config.action_dispatch.cookies_same_site_protection = :none 
   end
 end

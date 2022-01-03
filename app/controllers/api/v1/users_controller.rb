@@ -1,7 +1,7 @@
 
 class Api::V1::UsersController < ApplicationController
   include Rails.application.routes.url_helpers
-  skip_before_action :verify_authenticity_token
+  # skip_before_action :verify_authenticity_token
 
 
 
