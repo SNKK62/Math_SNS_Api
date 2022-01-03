@@ -1,4 +1,5 @@
 class Api::V1::SolutionsController < ApplicationController
+    skip_before_action :verify_authenticity_token
 
     def index
         solution = Solution.find(params[:id])

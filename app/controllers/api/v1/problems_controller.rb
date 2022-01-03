@@ -1,4 +1,6 @@
 class Api::V1::ProblemsController < ApplicationController
+skip_before_action :verify_authenticity_token
+
     def index
         problem = Problem.find(params[:id])
         render json: {problem: problem}

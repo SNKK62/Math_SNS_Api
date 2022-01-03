@@ -1,4 +1,5 @@
 class Api::V1::RelationshipsController < ApplicationController
+    skip_before_action :verify_authenticity_token
 
     def create
         user = User.find(params[:id])

@@ -1,4 +1,6 @@
 class Api::V1::CommentsController < ApplicationController
+skip_before_action :verify_authenticity_token
+
     def show
         comment = Comment.find(params[:id])
         user = comment.user

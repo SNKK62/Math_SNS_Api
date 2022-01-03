@@ -1,4 +1,6 @@
 class Api::V1::LikesController < ApplicationController
+skip_before_action :verify_authenticity_token
+
     def problem_create
         problem = Problem.find(params[:id])
         current_user.plike(problem)
